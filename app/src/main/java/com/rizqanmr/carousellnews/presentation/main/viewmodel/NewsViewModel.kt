@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.rizqanmr.core.data.network.Result
 import com.rizqanmr.core.data.network.model.NewsNetwork
 import com.rizqanmr.core.data.repository.NewsRepository
+import com.rizqanmr.core.utils.NewsFilterType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,9 +25,15 @@ class NewsViewModel @Inject constructor(
     private val isLoading = MutableLiveData<Boolean>()
     private val listNewsLiveData: MutableLiveData<List<NewsNetwork>> = MutableLiveData()
     private val errorListLiveData: MutableLiveData<String> = MutableLiveData()
+    private var listNews: List<NewsNetwork> = emptyList()
+    private val _filterType = MutableLiveData(NewsFilterType.RECENT)
 
     override val coroutineContext: CoroutineContext
         get() = viewModelScope.coroutineContext
+
+    init {
+        getListNews()
+    }
 
     override fun getIsLoading(): LiveData<Boolean> = isLoading
 
@@ -39,7 +46,10 @@ class NewsViewModel @Inject constructor(
 
         withContext(Dispatchers.IO) {
             when (val result = repository.getListNews()) {
-                is Result.Success -> listNewsLiveData.postValue(result.data)
+                is Result.Success -> {
+                    listNews = result.data
+                    applyFilter()
+                }
                 is Result.Error -> errorListLiveData.postValue(result.exception.localizedMessage)
             }
         }
@@ -50,4 +60,20 @@ class NewsViewModel @Inject constructor(
     override fun listNewsLiveData(): MutableLiveData<List<NewsNetwork>> = listNewsLiveData
 
     override fun errorListNewsLiveData(): LiveData<String> = errorListLiveData
+
+    override fun setFilterType(filterType: NewsFilterType) {
+        _filterType.value = filterType
+        applyFilter()
+    }
+
+    private fun applyFilter() {
+        val filteredNews = when (_filterType.value) {
+            NewsFilterType.RECENT -> listNews.sortedByDescending { it.timeCreated }
+            NewsFilterType.POPULAR -> listNews.sortedWith(compareBy<NewsNetwork> { it.rank }
+                .thenByDescending { it.timeCreated })
+            else -> listNews
+        }
+
+        listNewsLiveData.postValue(filteredNews)
+    }
 }

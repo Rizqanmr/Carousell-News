@@ -1,7 +1,6 @@
 package com.rizqanmr.carousellnews.presentation.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -18,6 +17,7 @@ import com.rizqanmr.carousellnews.databinding.ItemNewsBinding
 import com.rizqanmr.carousellnews.presentation.adapter.NewsAdapter
 import com.rizqanmr.carousellnews.presentation.main.viewmodel.NewsViewModel
 import com.rizqanmr.core.data.network.model.NewsNetwork
+import com.rizqanmr.core.utils.NewsFilterType
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         setupObservers()
         selectedNews()
-        viewmodel.getListNews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -93,18 +92,15 @@ class MainActivity : AppCompatActivity() {
         val view = findViewById<View>(R.id.action_menu) ?: return
         PopupMenu(this, view).apply {
             menuInflater.inflate(R.menu.menu_sort, menu)
-            setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_popular -> {
-                        // Handle sort popular
-                        true
+            setOnMenuItemClickListener {
+                viewmodel.setFilterType(
+                    when (it.itemId) {
+                        R.id.action_recent -> NewsFilterType.RECENT
+                        R.id.action_popular -> NewsFilterType.POPULAR
+                        else -> NewsFilterType.RECENT
                     }
-                    R.id.action_recent -> {
-                        // Handle sort recent
-                        true
-                    }
-                    else -> false
-                }
+                )
+                true
             }
             show()
         }

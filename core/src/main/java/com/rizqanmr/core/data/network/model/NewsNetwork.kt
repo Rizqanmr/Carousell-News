@@ -41,8 +41,9 @@ data class NewsNetwork(
             monthsAgo < 12 -> "$monthsAgo months ago"
             yearsAgo < 1 -> "$yearsAgo year ago"
             else -> {
-                val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                sdf.format(Date(timeCreated))
+                //val sdf = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                //sdf.format(Date(timeCreated))
+                "$daysAgo days ago"
             }
         }
     }
