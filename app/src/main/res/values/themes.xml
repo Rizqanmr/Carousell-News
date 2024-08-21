@@ -6,4 +6,20 @@
     </style>
 
     <style name="Theme.CarousellNews" parent="Base.Theme.CarousellNews" />
+
+    <style name="TitleTextStyle">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textColor">#262629</item>
+        <item name="android:textSize">@dimen/sp16</item>
+    </style>
+    <style name="BodyTextStyle">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">#262629</item>
+        <item name="android:textSize">@dimen/sp14</item>
+    </style>
+    <style name="DateTextStyle">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">#8F939C</item>
+        <item name="android:textSize">@dimen/sp12</item>
+    </style>
 </resources>
