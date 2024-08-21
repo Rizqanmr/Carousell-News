@@ -7,6 +7,10 @@ import kotlinx.coroutines.Job
 
 interface NewsViewModelContract {
 
+    fun getIsLoading(): LiveData<Boolean>
+
+    fun setIsLoading(isLoading: Boolean)
+
     fun getListNews(): Job
 
     fun listNewsLiveData(): MutableLiveData<List<NewsNetwork>>

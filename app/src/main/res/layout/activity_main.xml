@@ -31,4 +31,8 @@
         tools:itemCount="7"
         tools:listitem="@layout/item_news" />
 
+    <include
+        android:id="@+id/layout_loading"
+        layout="@layout/layout_loading" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

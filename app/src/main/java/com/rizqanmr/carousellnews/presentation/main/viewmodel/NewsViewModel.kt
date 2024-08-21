@@ -21,19 +21,30 @@ class NewsViewModel @Inject constructor(
     private val repository: NewsRepository
 ) : NewsViewModelContract, CoroutineScope, ViewModel() {
 
+    private val isLoading = MutableLiveData<Boolean>()
     private val listNewsLiveData: MutableLiveData<List<NewsNetwork>> = MutableLiveData()
     private val errorListLiveData: MutableLiveData<String> = MutableLiveData()
 
     override val coroutineContext: CoroutineContext
         get() = viewModelScope.coroutineContext
 
+    override fun getIsLoading(): LiveData<Boolean> = isLoading
+
+    override fun setIsLoading(isLoading: Boolean) {
+        this.isLoading.value = isLoading
+    }
+
     override fun getListNews(): Job = viewModelScope.launch {
+        setIsLoading(true)
+
         withContext(Dispatchers.IO) {
             when (val result = repository.getListNews()) {
                 is Result.Success -> listNewsLiveData.postValue(result.data)
                 is Result.Error -> errorListLiveData.postValue(result.exception.localizedMessage)
             }
         }
+
+        setIsLoading(false)
     }
 
     override fun listNewsLiveData(): MutableLiveData<List<NewsNetwork>> = listNewsLiveData

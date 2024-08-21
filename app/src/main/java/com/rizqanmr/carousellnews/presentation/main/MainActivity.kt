@@ -1,8 +1,10 @@
 package com.rizqanmr.carousellnews.presentation.main
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.rizqanmr.carousellnews.databinding.ActivityMainBinding
@@ -40,7 +42,11 @@ class MainActivity : AppCompatActivity() {
     private fun selectedNews() {
         newsAdapter.setUserListener(object : NewsAdapter.NewsListener {
             override fun onItemClick(itemNewsBinding: ItemNewsBinding, news: NewsNetwork?) {
-                TODO("Not yet implemented")
+                Toast.makeText(
+                    itemNewsBinding.cvNews.context,
+                    "News rank ${news?.rank} clicked",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -52,5 +58,12 @@ class MainActivity : AppCompatActivity() {
         viewmodel.errorListNewsLiveData().observe(this) {
             Snackbar.make(binding.root, it.toString(), Snackbar.LENGTH_SHORT).show()
         }
+        viewmodel.getIsLoading().observe(this) {
+            showLoading(it)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        binding.layoutLoading.progressLoading.isVisible = isLoading
     }
 }

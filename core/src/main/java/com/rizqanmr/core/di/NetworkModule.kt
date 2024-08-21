@@ -21,7 +21,6 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private const val BASE_URL = "https://storage.googleapis.com/carousell-interview-assets/android/"
-    private const val token = ""
 
     @Provides
     @Singleton
@@ -54,7 +53,6 @@ object NetworkModule {
         return Interceptor { chain ->
             val req = chain.request()
             val requestHeaders = req.newBuilder()
-                .addHeader("Authorization", "Bearer $token")
                 .build()
             chain.proceed(requestHeaders)
         }
