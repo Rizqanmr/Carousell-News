@@ -56,7 +56,7 @@
                 style="@style/BodyTextStyle"
                 android:layout_width="@dimen/dp0"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginHorizontal="@dimen/dp16"
                 android:layout_marginTop="@dimen/dp4"
                 android:ellipsize="end"
                 android:maxLines="2"
