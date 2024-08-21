@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Carousell News</string>
     <string name="news_image">News Image</string>
+    <string name="popular">Popular</string>
+    <string name="recent">Recent</string>
+    <string name="sort">Sort</string>
 </resources>
