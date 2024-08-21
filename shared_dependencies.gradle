@@ -1,0 +1,30 @@
+dependencies {
+    //Coroutines
+    implementation libs.kotlinx.coroutines.core
+    implementation libs.kotlinx.coroutines.android
+
+    //activity fragment ktx
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.fragment.ktx
+
+    //Retrofit okhttp
+    implementation libs.okhttp
+    implementation libs.logging.interceptor
+    implementation libs.retrofit
+    implementation libs.converter.gson
+
+    //lifecycle
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx.v261
+
+    //viewmodel
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.activity.ktx
+
+    //dagger hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
+
+    //Glide
+    implementation libs.glide
+}
